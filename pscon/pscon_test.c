@@ -23,15 +23,9 @@
 
 #ifdef __linux__
 
-static int pc_Terminal;
-
 static struct termios oldattr, newattr;
-int pc_InitTrmCon(void)
+void pc_InitTrmCon(void)
 {
-   pc_Terminal = open("/dev/tty", O_RDWR | O_NOCTTY);
-   if (pc_Terminal<=0) {
-      return pc_Terminal;
-   }
    tcgetattr( STDIN_FILENO, &oldattr );
    newattr=oldattr;
    newattr.c_lflag &= ~(ICANON | ECHO);
@@ -39,12 +33,11 @@ int pc_InitTrmCon(void)
    newattr.c_iflag &= ~(IGNCR | ICRNL);
    tcsetattr( STDIN_FILENO, TCSANOW, &newattr );
    tcsetattr( STDOUT_FILENO, TCSANOW, &newattr );
-   return pc_Terminal;
+   //return pc_Terminal;
 }
 
 void pc_DeInitTrmCon(void)
 {
-   close(pc_Terminal);
    tcsetattr( STDIN_FILENO, TCSANOW, &newattr );
    tcsetattr( STDOUT_FILENO, TCSANOW, &newattr );
 }
