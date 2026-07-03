@@ -1,3 +1,10 @@
+/******************************************* PiUE - Wojciech M. Szyfelbein  ********************************************
+* FILENAME:                 pscon.c                                                                                    *
+* AUTHOR:                   Wojciech M. Szyfelbein                                                                     *
+* DESCRIPTION:                                                                                                         *
+*		                                                                                                               *
+******************************************** PiUE - Wojciech M. Szyfelbein  *******************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -17,18 +24,6 @@
 #ifdef __linux__
 
 static int pc_Terminal;
-
-char pc_TstGetCh(void)
-{
-   char ch=0;
-   read(pc_Terminal,&ch,1);
-   return ch;
-}
-
-void pc_TstPutCh(char ch)
-{
-   write(pc_Terminal,&ch,1);
-}
 
 static struct termios oldattr, newattr;
 int pc_InitTrmCon(void)
@@ -54,6 +49,8 @@ void pc_DeInitTrmCon(void)
    tcsetattr( STDOUT_FILENO, TCSANOW, &newattr );
 }
 
+#define _getch getchar
+
 #endif // __linux__
 
 #if defined(WIN32) || defined(WIN64)
@@ -61,16 +58,18 @@ void pc_DeInitTrmCon(void)
 #define pc_InitTrmCon()
 #define pc_DeInitTrmCon()
 
-inline char pc_TstGetCh(void)
+#endif // defined(WIN32) || defined(WIN64)
+
+char pc_TstGetCh(void)
 {
-       return (char)_getch()
+   return (char)_getch();
 }
 
 void pc_TstPutCh(char ch)
 {
-    (void)putchar((int)ch);
+   (void)putchar((int)ch);
 }
-#endif // defined(WIN32) || defined(WIN64)
+
 
 //----------------------------------------------------------------------------------------------------------------------
 void Fun1(void)

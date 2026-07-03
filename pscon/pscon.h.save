@@ -1,0 +1,69 @@
+/******************************************* PiUE - Wojciech M. Szyfelbein  ********************************************
+* FILENAME:                 pscon.h                                                                                    *
+* AUTHOR:                   Wojciech M. Szyfelbein                                                                     *
+* DESCRIPTION:                                                                                                         *
+*		This file define of base types                                                                                 *
+******************************************* PiUE - Wojciech M. Szyfelbein  ********************************************/
+
+#ifndef PCON_H_INCLUDED
+#define PCON_H_INCLUDED
+
+#include <stdint.h>
+
+#include "pscon_conf.h"
+
+#if defined(pc_USESTDLIB) && (pc_USESTDLIB==0)
+#include <string.h>
+#else
+#include <string.h>
+#endif // defined(pc_USESTDLIB) && (pc_USESTDLIB==0)
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/*! \brief Command definition struct
+ *
+ *  This structure consist all data to define one command
+ */
+struct pc_Cmd
+{
+    char *Cmd;                          //!<Command string
+    void (*Fun)(void);                  //!<
+};
+
+/*! \brief Array of all defined commands
+ *
+ *  In this array should be all pointers to defined commands
+ */
+extern struct pc_Cmd pcCmds[];
+
+/*! \brief Prepare command line to new entrance of command
+ *
+ *  Fill command line with empty char
+ */
+extern void pc_GetCmdLine(void);
+
+/*! \brief
+ *
+ *  Detailed description starts here.
+ */
+extern void pc_DoCmd(void);
+
+
+/*! \brief Run console task
+ *
+ *  Detailed description starts here.
+ */
+extern void pc_Console(void);
+
+enum
+{
+    pc_CmdReady=-1,
+};
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif // PCON_H_INCLUDED
