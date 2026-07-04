@@ -24,6 +24,14 @@
 //!pc_cConTypeConcurrence - There in not a thread for console. Library remember state of between call pc_Console.
 #define pc_cConTypeConcurrence (0)
 
+//!pc_UseOptions - Set to 1 to use options
+#define pc_UseOptions (0)
+#define pc_OptNameType char
+#define pc_OptTypeType char
+
+#define pc_OneGetFunUINT (0)
+#define pc_MaxIntSize (16)
+
 //!Defines function to put function. Function should have prototype as void pc_TstPutCh(pc_CharType ch).
 #define pc_PutChar(x) pc_TstPutCh(x)
 //!Defines function to get char from the input. Function should have prototype as pc_CharType pc_TstGetCh(void).
@@ -34,6 +42,9 @@
 
 //!Info string displayed if command not in command array
 #define pc_sInfoNoCmd "Command doasn't exist"
+
+//!Info string displayed if command not in command array
+#define pc_sInfoNoOpt "Option for commnad: %s doasn't exist"
 
 //!Prompt string. Can be ""
 #define pc_sPromptStr "|>"

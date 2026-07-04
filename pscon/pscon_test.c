@@ -10,12 +10,12 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#ifdef __linux__
+#if defined(__linux__)
 #include <sys/ioctl.h>
 #include <termios.h>
 #endif // __linux__
 
-#if defined(WIN32) || defined(WIN64)
+#if defined(WIN32)
 #include <conio.h>
 #endif //defined(WIN32) || defined(WIN64)
 
@@ -33,7 +33,6 @@ void pc_InitTrmCon(void)
    newattr.c_iflag &= ~(IGNCR | ICRNL);
    tcsetattr( STDIN_FILENO, TCSANOW, &newattr );
    tcsetattr( STDOUT_FILENO, TCSANOW, &newattr );
-   //return pc_Terminal;
 }
 
 void pc_DeInitTrmCon(void)

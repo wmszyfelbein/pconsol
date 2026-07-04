@@ -12,9 +12,14 @@
 
 typedef unsigned pc_IndexType pc_uidx;
 
-static char PCInBuffer[pc_InBufferSize];
-static pc_IndexType pc_iCurPos=-1;
+enum
+{
+    pc_CmdReady=-1,
+    pc_CmdPrepLine=-2,
+};
 
+static char PCInBuffer[pc_InBufferSize];
+static pc_IndexType pc_iCurPos=pc_CmdPrepLine;
 
 static void pc_Print(char* sStr)
 {
@@ -37,7 +42,7 @@ static pc_IndexType pc_FindSpCmd(pc_IndexType iPos)
 
 static void pc_PrepNewLine(void)
 {
-    if (pc_iCurPos<0) {
+    if (pc_iCurPos==pc_CmdPrepLine) {
         pc_Print("\r\n");
         pc_iCurPos=0;
         if (sizeof(pc_sPromptStr)>1) pc_Print(pc_sPromptStr); //should be optimized in final
@@ -82,7 +87,7 @@ void pc_DoCmd(void)
                 ((PCInBuffer[(pc_uidx)iLnChrCnt]=='\0') || PCInBuffer[(pc_uidx)iLnChrCnt]==' ')) {
                 //command found, do it
                 pcCmds[(pc_uidx)iCmdCnt].Fun();
-                pc_iCurPos=-1;
+                pc_iCurPos=pc_CmdPrepLine;
                 return;
             }
             if ((pcCmds[(pc_uidx)iCmdCnt].Cmd[(pc_uidx)iCmdChrCnt]==
@@ -93,7 +98,7 @@ void pc_DoCmd(void)
         }
     }
     pc_Print("\r\n"pc_sInfoNoCmd);
-    pc_iCurPos=-1;
+    pc_iCurPos=pc_CmdPrepLine;
 }
 
 void pc_Console(void)
