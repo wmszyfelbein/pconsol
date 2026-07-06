@@ -35,6 +35,7 @@
 		</Compiler>
 		<Unit filename="CMakeLists.txt" />
 		<Unit filename="Doxyfile" />
+		<Unit filename="README.md" />
 		<Unit filename="pscon.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -12,10 +12,16 @@
 
 //!Defines type used to any index/counter type. Char type generates small (on tested) code in 8b micro-controller.
 //!For 16+b should be int..
+#define pcCPUMainType char
+
+
+
+//!Defines type used to any index/counter type. Char type generates small (on tested) code in 8b micro-controller.
+//!For 16+b should be int..
 #define pc_IndexType char
 
 //!Size of input buffer. Type of array is char
-#define pc_InBufferSize (10)
+#define pc_InBufferSize (50)
 
 //!pc_ConType - Execution type. Loot at pc_ConTypeThread and pc_ConTypeThread
 #define pc_ConType (pc_cConTypeConcurrence)
@@ -23,6 +29,14 @@
 #define pc_ConTypeThread (1)
 //!pc_cConTypeConcurrence - There in not a thread for console. Library remember state of between call pc_Console.
 #define pc_cConTypeConcurrence (0)
+
+//!pc_UseOptions - Set to 1 to use options
+#define pc_UseOptions (1)
+#define pc_OptNameType char
+#define pc_OptTypeType char
+
+#define pc_OneGetFunUINT (0)
+#define pc_MaxIntSize (16)
 
 //!Defines function to put function. Function should have prototype as void pc_TstPutCh(pc_CharType ch).
 #define pc_PutChar(x) pc_TstPutCh(x)
@@ -35,8 +49,11 @@
 //!Info string displayed if command not in command array
 #define pc_sInfoNoCmd "Command doasn't exist"
 
+//!Info string displayed if command not in command array
+#define pc_sInfoNoOpt "Option for commnad: %s doasn't exist"
+
 //!Prompt string. Can be ""
-#define pc_sPromptStr "|>"
+#define pc_sPromptStr "PIUE>"
 
 //!Function which should be defined to get char (look at macro pc_GetChar). Here is an example.
 //!Can be macro to. Remember add your header.
