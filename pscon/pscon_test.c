@@ -76,7 +76,7 @@ void Fun2(pc_IndexType iCmd)
 }
 #endif
 #if pc_UseOptions==1
-static char *apcOptTypes[]= {"End","Error","Flag","Int8","UInt8","Int","UInt","Str"};
+static char *apcOptTypes[]= {"End","Error","Flag","Int","UInt","Str"};
 
 void Fun1p(pc_IndexType iCmd)
 {
@@ -137,15 +137,11 @@ pc_BeginCmdArr
         pc_DefineParam('3',pc_otFlag),
         pcEndParamList,
     pc_EndCmd,
-    pc_BeginCmd("exit",Exit)
-        pc_DefineParam('3',pc_otEnd),
-    pc_EndCmd,
+    pc_DefineCmd("exit",Exit),
     pc_PSVerCmd,
     pc_EndCmdList
 pc_EndCmdArr;
 #endif
-
-
 
 int main()
 {

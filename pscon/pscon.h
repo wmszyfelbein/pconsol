@@ -28,8 +28,8 @@ extern "C" {
  */
 struct pc_Option
 {
-    pc_OptNameType Opt;                 //!<Character to identify option (one char only)
-    pc_OptTypeType Type;                //!<Type of option defined in enum pc_OptionType
+    char Opt;                           //!<Character to identify option (one char only)
+    char Type;                          //!<Type of option defined in enum pc_OptionType
 };
 
 /*! \brief Defines types of options
@@ -39,10 +39,8 @@ struct pc_Option
 enum pc_OptionType:char
 {
     pc_otEnd,                           //!<To identify last empty option in array
-    pc_otError,
-    pc_otFlag,                          //!<switch flags, only one letter
-    pc_otInt8,                          //!<integer value, can use 0xHex 0bBinary 0Octal
-    pc_otUInt8,                         //!<integer value, can use 0xHex 0bBinary 0Octal
+    pc_otError,                         //!<To identify error in getting option
+    pc_otFlag,                          //!<switch flags, only one letter no value
     pc_otInt,                           //!<integer value, can use 0xHex 0bBinary 0Octal
     pc_otUInt,                          //!<integer value, can use 0xHex 0bBinary 0Octal
     pc_otStr,                           //!<string value
@@ -67,59 +65,121 @@ struct pc_Cmd
  */
 extern struct pc_Cmd const pcCmds[];
 
-#define pc_BeginCmdArr struct pc_Cmd const pcCmds[]=(struct pc_Cmd[]) {
+/*! \brief Start definition of pc_Cmd commands array.
+ */
+ #define pc_BeginCmdArr struct pc_Cmd const pcCmds[]=(struct pc_Cmd[]) {
+
+/*! \brief  Finalize definition of pc_Cmd commands array.
+ */
 #define pc_EndCmdArr }
 
 #if pc_UseOptions==0
+
+/*! \brief Defines one command in no parameters configuration
+ *
+ * \param 1 Pointer to constant string name of command
+ * \param 2 Pointer to void Fun(void) function, which is called when parser identify command
+ */
 #define pc_DefineCmd(name,fun) {.Cmd=name,.Fun=fun}
 #endif
 
 #if pc_UseOptions==1
+
+/*! \brief Defines one command without parameter in configuration
+ *
+ * \param 1 Pointer to constant string name of command
+ * \param 2 Pointer to void Fun(void) function, which is called when parser identify command
+ */
+#define pc_DefineCmd(name,fun) {.Cmd=name,.Fun=fun, .Opts=nullptr}
+
+/*! \brief Start definition of command with parameters
+ *
+ * \param 1 Pointer to constant string name of command
+ * \param 2 Pointer to void Fun(void) function, which is called when parser identify command
+ */
 #define pc_BeginCmd(name,fun) (struct pc_Cmd const){.Cmd=name,.Fun=fun,\
     .Opts=(struct pc_Option*) (struct pc_Option const[]) {
+
+/*! \brief Finish definition of command with parameters
+ */
 #define pc_EndCmd }}
+
+/*! \brief Command to sign end of command list
+ */
 #define pc_EndCmdList (struct pc_Cmd const){.Cmd=nullptr,.Fun=nullptr,.Opts=nullptr}
+
+/*! \brief Command to print version of console
+ */
 #define pc_PSVerCmd (struct pc_Cmd const){.Cmd="psver",.Fun=pc_PrintPSConsoleVer,.Opts=nullptr}
+
+/*! \brief Define one parameter
+ *
+ * \param 1 One char parameters name
+ * \param 2
+ */
 #define pc_DefineParam(opt,type) (struct pc_Option const){.Opt=opt,.Type=type}
-#define pcEndParamList pc_DefineParam('\0',pc_otEnd)
-#endif // pc_UseOptions
 
 /*! \brief
- *
- *  Function realize command is entered
+*/
+#define pcEndParamList pc_DefineParam('\0',pc_otEnd)
+
+#endif // pc_UseOptions 1
+
+/*! \brief Function find command in command list and realize it
  */
 extern void pc_DoCmd(void);
 
-/*! \brief
+/*! \brief Function gets next parameter id from entered line
  *
- *  Function
+ * \param 1 One char parameters name
  */
 extern enum pc_OptionType pc_GetNextPrmType(pc_IndexType iCmdCnt);
 
-/*! \brief
- *
- *  Function
- */
  #if pc_UseOptions==1
+
+ /*! \brief  Get flag parameter value (ASCII character)
+  *
+  * \return ASCII character which represent a flag
+ */
 extern char pc_GetFlag(void);
+
+/*! \brief Get integer parameter value
+ *
+ * \return Integer value as a result of conversion
+ */
 extern int32_t pc_GetNextPrmINT32(void);
+
+/*! \brief Get unsigned integer parameter value
+ *
+ * \return
+ */
 extern uint32_t pc_GetNextPrmUINT32(void);
+
+/*! \brief Get ne
+ *
+ * \return Unsigned integer value as a result of conversion
+ */
 extern char* pc_GetNextPrmSTR(void);
 
+/*! \brief Get last conversion error in getting parameters
+ *
+ * \return - 1 last conversion was error, 0 OK
+ */
 extern pc_IndexType pc_GetLastConvError(void);
 
+/*! \brief Function print PiUE Console version and info
+ */
 extern void pc_PrintPSConsoleVer(pc_IndexType iCmd);
+
 #endif // pc_UseOptions
+
 /*! \brief Run console enter task (thread or concurrence)
- *
- *  Detailed description starts here.
  */
 extern void pc_Console(void);
 
 #ifdef __cplusplus
 }
 #endif
-
 #endif // PCON_H_INCLUDED
 
 

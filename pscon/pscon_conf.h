@@ -10,11 +10,8 @@
 
 #include <stdint.h>
 
-//!Defines type used to any index/counter type. Char type generates small (on tested) code in 8b micro-controller.
-//!For 16+b should be int..
-#define pcCPUMainType char
-
-
+//!Defines architecture of used uC CPU ALU width
+#define pc_CPUArch 8
 
 //!Defines type used to any index/counter type. Char type generates small (on tested) code in 8b micro-controller.
 //!For 16+b should be int..
@@ -25,26 +22,21 @@
 
 //!pc_ConType - Execution type. Loot at pc_ConTypeThread and pc_ConTypeThread
 #define pc_ConType (pc_cConTypeConcurrence)
-//!pc_ConTypeThread - There is a special thread for execute console. pc_GetChar - macro should block thread
-#define pc_ConTypeThread (1)
 //!pc_cConTypeConcurrence - There in not a thread for console. Library remember state of between call pc_Console.
 #define pc_cConTypeConcurrence (0)
+//!pc_ConTypeThread - There is a special thread for execute console. pc_GetChar - macro should block thread
+#define pc_ConTypeThread (1)
 
 //!pc_UseOptions - Set to 1 to use options
 #define pc_UseOptions (1)
-#define pc_OptNameType char
-#define pc_OptTypeType char
 
-#define pc_OneGetFunUINT (0)
+//!pc_MaxIntSize - Set max int size: 16 or 32
 #define pc_MaxIntSize (16)
 
 //!Defines function to put function. Function should have prototype as void pc_TstPutCh(pc_CharType ch).
 #define pc_PutChar(x) pc_TstPutCh(x)
 //!Defines function to get char from the input. Function should have prototype as pc_CharType pc_TstGetCh(void).
 #define pc_GetChar pc_TstGetCh
-
-//!Defines how many commands in command array
-#define pc_CmdCnt (3)
 
 //!Info string displayed if command not in command array
 #define pc_sInfoNoCmd "Command doasn't exist"
